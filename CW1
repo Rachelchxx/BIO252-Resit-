@@ -1,0 +1,159 @@
+###   BIO252 Coursework -- Data Analysis Assignment -- R codes	 (04/08/2023) ###
+###
+###   Title: 'An Analytical Report on the changes in Fruit-feeding Butterfly biodiversity across an elevation gradient across The Atlantic Forest
+###   & Cerrado Regions'                     
+###
+###   Author: Rachel Charlwood (2120525)								  
+###													  
+###   Date: 04/08/2023					# --> insert the date you hand in your report
+###													  
+###   R codes associated with "BIO252 CW1 Resit pdf" # --> (Name of the file of your report)				  
+###													  
+###   Version 4.2.3 (2023-03-15)
+
+##########################################################################################################################################################
+##########################################################################################################################################################
+
+###     1. Data used  
+
+###     2. Data management & Preparation 
+###     Content - organise script into these sections:											  	  
+###													  
+### 	1. Data used		# --> (provide links and brief explanation)								          
+###												                                                                                               
+###	2. Data management & preparation		# --> (use the codes I provide below - select only those for the dataset you will be using, of course!)						  
+###													    												  
+### 	3. Exploratory analysis			    # remember, this part is for you to explore the data and make sure you understand the data and set up the correct model	 						  
+###												                                                                                               
+###	4. Statistical analysis						# remember, the results from this part if what goes into the Results section of the report				  
+###													  
+###	5. R codes for figures in the report		## --> (i.e. the codes used to generate the specific figures included in your report)	
+
+#######################################################
+# 1. Data Used in Report
+#######################################################
+
+# Data has been obtained from: ATLANTIC: Data Papers from a biodiversity hotspot
+# URL: https://esajournals.onlinelibrary.wiley.com/doi/toc/10.1002/(ISSN)1939-9170.AtlanticPapers 
+
+# Selected dataset -> Antlantic Butterfly Data
+# dos Santos et al. (2018) Atlantic butterflies: a Dataset of fruit-feeding butterfly communities from the Atlantic forests. Ecology (in press)
+# DOI: https://doi.org/10.1002/ecy.2507
+
+# Data files: ATLANTIC_BUTTERFLIES_sites.csv & ATLANTIC_BUTTERFLIES_species.csv
+# Metadata description: ecy2507-sup-0002-metadatas1.pdf
+# Date last accessed: 04/08/2023
+
+#######################################################
+# 2. Data Management & Preparation 
+#######################################################
+
+species <- read.csv("ATLANTIC_BUTTERFLIES_species.csv", sep = ";", stringsAsFactors = TRUE)
+sites <- read.csv("ATLANTIC_BUTTERFLIES_sites.csv", sep = ";", stringsAsFactors = TRUE)
+
+### the 'species' data frame contains information on each species recorded at each site  ###
+### the 'sites' data frame contains information about each site where butterflies were recorded  ###
+
+str(species)
+ 'data.frame':	7062 obs. of  16 variables:
+   sites_ID       : Factor w/ 122 levels "bor1001","bor1002",..: 48 48 48 48 48 48 48 48 48 48 ...
+ Class          : Factor w/ 1 level "Insecta": 1 1 1 1 1 1 1 1 1 1 ...
+ Order          : Factor w/ 1 level "Lepidoptera": 1 1 1 1 1 1 1 1 1 1 ...
+ Family         : Factor w/ 1 level "Nymphalidae": 1 1 1 1 1 1 1 1 1 1 ...
+ Subfamily      : Factor w/ 4 levels "Biblidinae","Charaxinae",..: 4 4 4 4 4 4 4 4 4 4 ...
+ Tribe          : Factor w/ 16 levels "Ageroniini","Anaeini",..: 13 13 13 13 13 13 4 4 4 8 ...
+ Genus          : Factor w/ 86 levels "Amphidecta","Antirrhea",..: 49 49 49 49 49 49 8 25 51 45 ...
+ Species        : Factor w/ 279 levels "Amphidecta_pignerator",..: 154 160 155 158 156 157 16 73 166 134 ...
+ Species.Authors: Factor w/ 124 levels "H\xfcbner, [1822]",..: 24 22 45 40 50 36 67 46 99 22 ...
+ X              : logi  NA NA NA NA NA NA ...
+ X.1            : logi  NA NA NA NA NA NA ...
+ X.2            : logi  NA NA NA NA NA NA ...
+ X.3            : logi  NA NA NA NA NA NA ...
+ X.4            : logi  NA NA NA NA NA NA ...
+ X.5            : logi  NA NA NA NA NA NA ...
+ X...           : Factor w/ 4 levels "",",",",,",",,,": 3 3 3 3 3 3 3 3 3 3 .
+
+head(species)
+sites_ID   Class       Order      Family Subfamily    Tribe  Genus            Species     Species.Authors  X X.1 X.2 X.3 X.4 X.5 X...
+1  bor1048 Insecta Lepidoptera Nymphalidae Satyrinae Morphini Morpho        Morpho_aega (H\xfcbner, [1822]) NA  NA  NA  NA  NA  NA   ,,
+2  bor1048 Insecta Lepidoptera Nymphalidae Satyrinae Morphini Morpho      Morpho_portis (H\xfcbner, [1821]) NA  NA  NA  NA  NA  NA   ,,
+3  bor1048 Insecta Lepidoptera Nymphalidae Satyrinae Morphini Morpho    Morpho_anaxibia     (Esper, [1801]) NA  NA  NA  NA  NA  NA   ,,
+4  bor1048 Insecta Lepidoptera Nymphalidae Satyrinae Morphini Morpho    Morpho_hercules      (Dalman, 1823) NA  NA  NA  NA  NA  NA   ,,
+5  bor1048 Insecta Lepidoptera Nymphalidae Satyrinae Morphini Morpho Morpho_epistrophus   (Fabricius, 1796) NA  NA  NA  NA  NA  NA   ,,
+6  bor1048 Insecta Lepidoptera Nymphalidae Satyrinae Morphini Morpho     Morpho_helenor      (Cramer, 1776) NA  NA  NA  NA  NA  NA   ,,
+
+str(sites)
+'data.frame':	122 obs. of  17 variables:
+   sites_ID      : Factor w/ 122 levels "bor1001","bor1002",..: 1 2 3 4 5 6 7 8 9 10 ...
+ Country       : Factor w/ 2 levels "Argentina","Brazil": 2 2 2 2 2 2 2 2 2 2 ...
+ State         : Factor w/ 15 levels "ALAGOAS","BAHIA",..: 13 13 13 9 9 9 9 9 13 9 ...
+ Municipality  : Factor w/ 112 levels "AGROLANDIA","ALFENAS",..: 59 97 92 30 56 41 60 33 82 9 ...
+ Study.Location: Factor w/ 122 levels "Sert\xe3o da Praia Dura",..: 60 42 106 28 57 44 61 35 91 108 ...
+ Latitude      : num  -29.6 -29.4 -29.7 -25.3 -23.3 ...
+ Longitude     : num  -50.3 -50.4 -53.8 -49.4 -51.2 ...
+ Precision     : Factor w/ 10 levels "10","10000","120",..: 6 7 8 5 10 1 1 1 1 1 ...
+ Reserve_Area  : num  NA 1615 NA NA NA ...
+ Altitude      : Factor w/ 106 levels "0-15","10-200",..: 7 97 50 94 56 99 55 33 23 10 ...
+ Altitude1km   : int  305 917 99 956 571 936 442 280 139 803 ...
+ A_mean_temp   : num  18.7 14.9 19.9 16.7 20.6 ...
+ A_rainfall    : int  1568 2083 1665 1641 1598 1691 1256 1202 1763 1431 ...
+ Olsong200r    : Factor w/ 2 levels "Atlantic Forests",..: 1 1 NA 1 1 1 1 1 1 1 ...
+ Olsoneconame  : Factor w/ 13 levels "Alto Parana Atlantic forests",..: 2 2 13 2 1 2 1 1 1 2 ...
+ Ribeirovegtype: Factor w/ 9 levels "Areas das Formacoes Pioneiras",..: 8 3 2 8 5 9 5 5 4 8 ...
+ BSRs.         : Factor w/ 11 levels "Bahia","Bahia,",..: 5 5 6 5 6 5 6 6 6 5 ...
+
+ ### Now we are able to see the butterfly data of 7062 species records obtained from 122 sites
+
+ ### Next we must count the number of records from each site -> this allows us to obtain a measure of the total butterfly alpha-diversity
+ ### To do this, we calculate species richness for each site, then combine this with altitude and bioregion information found in the
+ ### 'sites' data
+ 
+ ### All this information has to be combined into a data frame, ready for the statistical analysis 
+
+View(ATLANTIC_BUTTERFLIES_sites)
+> ATLANTIC_BUTTERFLIES_species <- read.csv2("~/Library/CloudStorage/OneDrive-SwanseaUniversity/Swansea University/Year 2/BIO252 CW1 Resit/ATLANTIC_BUTTERFLIES_species.csv", stringsAsFactors=TRUE)
+ 
+ ### Here, using table(), we can count the number of records from each site, and then through using data.frame() will transform the data
+ ### into a data frame with the necessary columns needed for the analyses being carried out
+
+
+> SpeciesRichness <- table(species$sites_ID)
+
+> View(SpeciesRichness)
+
+> install.packages(dplyr)
+
+> library(dplyr)
+
+### Currently the columns are titled "Var1" and "Freq". We can keep them this way, however it reads better to change it to a more common title. This is done using the code below
+
+> SpeciesRichness <- as.data.frame(SpeciesRichness)
+> SpeciesRichness <- SpeciesRichness %>% rename(`Site Id` = Var1, `Number of Species` = Freq)
+> View(SpeciesRichness)
+
+### Now we want to merge the data to allow us to start plotting 
+
+merged_data <- merge(ATLANTIC_BUTTERFLIES_species, ATLANTIC_BUTTERFLIES_sites, by.x = "sites_ID", by.y = "V1") 
+
+install.packages("ggplot2")
+
+library(ggplot2)
+
+ggplot(merged_data, aes(x = Subfamily, y = V11)) +
++     geom_bar(stat = "identity") +
++     labs(x = "Subfamily", y = "Count", title = "Counts of Subfamilies in ATLANTIC_BUTTERFLIES")
+
+ggplot(merged_data, aes(x = Subfamily, y = V11))
+
+gplot(merged_data, aes(x = Subfamily, y = V11, fill = Subfamily)) +
++     geom_bar(stat = "identity") +
++     labs(x = "Butterfly Subfamily", y = "Number of Species", title = "Representation of Subfamilies & their species") +
++     theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
++     scale_fill_manual(values = c("blue", "red", "green", "orange", "purple"))
+> 
+
+###### to make bar plot showing which countries each site is located 
+
+plot(ATLANTIC_BUTTERFLIES_sites$V2, col = "blue", xlab = "Index", ylab = "V2",
+     main = "Bar Plot of ATLANTIC_BUTTERFLIES_sites$V2", type = "h") 
+
