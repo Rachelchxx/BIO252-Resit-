@@ -1,13 +1,12 @@
 ###   BIO252 Coursework -- Data Analysis Assignment -- R codes	 (04/08/2023) ###
 ###
-###   Title: 'An Analytical Report on the changes in Fruit-feeding Butterfly biodiversity across an elevation gradient across The Atlantic Forest
-###   & Cerrado Regions'                     
+###   Title: 'An Analytical Report Exploring the Patterns of Elevational Biodiversity found in fruit-feeding butterflies across The Atlantic Forest & Cerrado Regions.'                    
 ###
 ###   Author: Rachel Charlwood (2120525)								  
 ###													  
-###   Date: 04/08/2023					# --> insert the date you hand in your report
+###   Date: 04/08/2023					
 ###													  
-###   R codes associated with "BIO252 CW1 Resit pdf" # --> (Name of the file of your report)				  
+###   R codes associated with "BIO252 CW1 Resit pdf"			  
 ###													  
 ###   Version 4.2.3 (2023-03-15)
 
