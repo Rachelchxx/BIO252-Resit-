@@ -12,22 +12,7 @@
 ###   Version 4.2.3 (2023-03-15)
 
 ##########################################################################################################################################################
-##########################################################################################################################################################
-
-###     1. Data used  
-
-###     2. Data management & Preparation 
-###     Content - organise script into these sections:											  	  
-###													  
-### 	1. Data used		# --> (provide links and brief explanation)								          
-###												                                                                                               
-###	2. Data management & preparation		# --> (use the codes I provide below - select only those for the dataset you will be using, of course!)						  
-###													    												  
-### 	3. Exploratory analysis			    # remember, this part is for you to explore the data and make sure you understand the data and set up the correct model	 						  
-###												                                                                                               
-###	4. Statistical analysis						# remember, the results from this part if what goes into the Results section of the report				  
-###													  
-###	5. R codes for figures in the report		## --> (i.e. the codes used to generate the specific figures included in your report)	
+##########################################################################################################################################################	
 
 #######################################################
 # 1. Data Used in Report
