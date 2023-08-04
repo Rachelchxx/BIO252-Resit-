@@ -135,6 +135,10 @@ View(ATLANTIC_BUTTERFLIES_sites)
 
 merged_data <- merge(ATLANTIC_BUTTERFLIES_species, ATLANTIC_BUTTERFLIES_sites, by.x = "sites_ID", by.y = "V1") 
 
+#######################################
+## 5. R codes for figures in report 
+#######################################
+
 install.packages("ggplot2")
 
 library(ggplot2)
@@ -153,6 +157,9 @@ gplot(merged_data, aes(x = Subfamily, y = V11, fill = Subfamily)) +
 > 
 
 ###### to make bar plot showing which countries each site is located 
+
+
+plot(ATLANTIC_BUTTERFLIES_sites$V2)
 
 plot(ATLANTIC_BUTTERFLIES_sites$V2, col = "blue", xlab = "Index", ylab = "V2",
      main = "Bar Plot of ATLANTIC_BUTTERFLIES_sites$V2", type = "h") 
